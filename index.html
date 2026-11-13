@@ -365,10 +365,28 @@ function precoCor(nome){
   return claras.includes(nome) ? 45.90 : 47.90;
 }
 
+function initFallback2D(){
+  const box = document.getElementById('c3d');
+  box.innerHTML = `<svg viewBox="0 0 400 420" style="width:100%;height:100%;max-height:440px" aria-label="Prévia da camiseta na cor escolhida">
+    <path id="svg-corpo" d="M120,60 L60,80 L28,140 L72,160 L80,140 L80,370 L320,370 L320,140 L328,160 L372,140 L340,80 L280,60 Q260,98 200,98 Q140,98 120,60 Z" fill="#E8E8E8" stroke="rgba(255,255,255,.25)" stroke-width="3"/>
+    <path id="svg-gola" d="M140,62 Q200,102 260,62" fill="none" stroke="rgba(0,0,0,.28)" stroke-width="10" stroke-linecap="round"/>
+  </svg>`;
+  const dica = document.createElement('div');
+  dica.className = 'dica'; dica.textContent = 'Prévia da cor — visualização 3D completa no navegador com aceleração de vídeo';
+  box.appendChild(dica);
+  cena3d = { setCor: hex => {
+    document.getElementById('svg-corpo').setAttribute('fill', hex);
+    const escuro = ['#17171A','#070B30','#4B0D02','#4E0272','#063A1F','#2B3990','#A51B0F','#C60474'].includes(hex.toLowerCase());
+    document.getElementById('svg-gola').setAttribute('stroke', escuro ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.28)');
+  }};
+}
 function init3D(){
   if(!window.THREE) return;
   const box = document.getElementById('c3d');
   const W = box.clientWidth, H = box.clientHeight;
+  let gl = null;
+  try { gl = document.createElement('canvas').getContext('webgl') || document.createElement('canvas').getContext('experimental-webgl'); } catch(e){}
+  if(!gl){ initFallback2D(); return; }
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, W/H, .1, 100);
   camera.position.set(0, 0, 5.2);
