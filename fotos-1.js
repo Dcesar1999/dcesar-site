@@ -1,0 +1,1 @@
+/* FOTOS D'CESAR — parte 1/5 (dados base64 das imagens do site) */
