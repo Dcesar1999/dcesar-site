@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070B30">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Archivo+Black&display=swap" rel="stylesheet">
+<title>D'Cesar — Camisetas personalizadas desde 1999</title>
+<meta name="description" content="Camisetas personalizadas por sublimação e DTF. Uniformes, formaturas, eventos e empresas. Produção própria desde 1999.">
+<style>
+:root{
+  --marinho:#070B30; --turquesa:#0094C0; --bege:#F5EFE2; --branco:#FFFFFF;
+  --cinza:#6B7280; --borda:rgba(7,11,48,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .marquee .track{animation:none}
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--turquesa);color:#fff;padding:10px 18px;border-radius:0 0 10px 0;z-index:200;font-weight:700}
+.skip-link:focus{left:0}
+:focus-visible{outline:3px solid var(--turquesa);outline-offset:3px;border-radius:4px}
+a,button{touch-action:manipulation}
+img{max-width:100%;height:auto}
+body{font-family:'Archivo',system-ui,-apple-system,sans-serif;color:var(--marinho);background:var(--branco);line-height:1.6;-webkit-tap-highlight-color:rgba(0,148,192,.18)}
+h1,h2,h3,.logo,.stat b{font-family:'Archivo Black','Archivo',sans-serif;font-weight:400;text-wrap:balance}
+::selection{background:var(--turquesa);color:#fff}
+
+/* ===== HEADER ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 6vw;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--borda);transition:background-color .3s}
+header .logo{font-weight:800;font-size:22px;letter-spacing:1px;color:var(--marinho);text-decoration:none}
+header .logo span{color:var(--turquesa)}
+nav a{color:var(--marinho);text-decoration:none;margin-left:28px;font-size:14px;font-weight:600;opacity:.75;transition:color .2s,opacity .2s}
+nav a:hover{opacity:1;color:var(--turquesa)}
+.menu-mobile{display:none}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 6vw 60px;position:relative;overflow:hidden}
+.hero .num{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--turquesa);margin-bottom:18px}
+.hero h1{font-size:clamp(42px,7.5vw,96px);line-height:1.02;font-weight:800;letter-spacing:-2px;max-width:12ch}
+.hero h1 em{font-style:normal;color:var(--turquesa)}
+.hero p{margin-top:28px;font-size:clamp(16px,1.6vw,20px);max-width:46ch;color:var(--cinza)}
+.hero .cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{padding:15px 32px;border-radius:60px;font-weight:700;font-size:15px;text-decoration:none;transition:background-color .25s,color .25s,border-color .25s,transform .25s,box-shadow .25s;display:inline-block}
+.btn-primary{background:var(--marinho);color:#fff}
+.btn-primary:hover{background:var(--turquesa);transform:translateY(-2px)}
+.btn-ghost{border:1.5px solid var(--marinho);color:var(--marinho)}
+.btn-ghost:hover{background:var(--marinho);color:#fff}
+.hero .deco{position:absolute;right:-5vw;top:12vh;width:44vw;max-width:640px;opacity:.16;border-radius:24px;pointer-events:none}
+
+/* ===== MARQUEE ===== */
+.marquee{background:var(--marinho);color:var(--bege);padding:16px 0;overflow:hidden;white-space:nowrap}
+.marquee .track{display:inline-block;animation:scroll 28s linear infinite}
+.marquee span{font-size:14px;font-weight:600;letter-spacing:2px;margin:0 28px;text-transform:uppercase}
+.marquee span::after{content:'•';color:var(--turquesa);margin-left:56px}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===== SEÇÕES ===== */
+section{padding:110px 6vw}
+.sec-head{margin-bottom:64px}
+.sec-head .num{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--turquesa);margin-bottom:12px}
+.sec-head h2{font-size:clamp(34px,4.6vw,60px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;max-width:18ch}
+.sec-head p{margin-top:18px;color:var(--cinza);max-width:60ch;font-size:17px}
+
+/* QUEM SOMOS */
+#quem-somos{background:var(--marinho);color:#fff}
+#quem-somos .sec-head h2{color:#fff}
+#quem-somos .sec-head p{color:rgba(255,255,255,.65)}
+.somos-foto{margin-bottom:26px;border-radius:18px;overflow:hidden;max-height:420px}
+.somos-foto img{width:100%;height:100%;object-fit:cover}
+.somos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:8px}
+.stat{border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:34px 28px}
+.stat b{font-size:clamp(38px,4vw,56px);font-weight:800;color:var(--turquesa);display:block;line-height:1}
+.stat span{font-size:14px;color:rgba(255,255,255,.7);display:block;margin-top:10px}
+.somos-texto{margin-top:44px;font-size:clamp(16px,1.5vw,19px);max-width:70ch;color:rgba(255,255,255,.85)}
+
+/* O QUE FAZEMOS */
+.servicos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.servico{border:1.5px solid var(--borda);border-radius:18px;padding:36px 30px;transition:border-color .3s,transform .3s,box-shadow .3s;background:#fff}
+.servico:hover{border-color:var(--turquesa);transform:translateY(-5px);box-shadow:0 18px 40px rgba(7,11,48,.08)}
+.servico .n{font-size:12px;font-weight:700;color:var(--turquesa);letter-spacing:2px}
+.servico h3{font-size:22px;margin:12px 0 10px;font-weight:800}
+.servico p{font-size:14.5px;color:var(--cinza)}
+
+/* GALERIA */
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.foto{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,var(--marinho),#1a2455);min-height:300px;display:flex;align-items:flex-end;padding:24px}
+.foto::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(7,11,48,.55))}
+.foto .legenda{position:relative;z-index:2;color:#fff;font-weight:700;font-size:15px}
+.foto .tag{position:absolute;top:16px;left:16px;z-index:2;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:30px;text-transform:uppercase}
+.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+
+/* CATÁLOGO */
+#catalogo{background:var(--bege)}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.cat-item{background:#fff;border-radius:14px;padding:26px 24px;border:1px solid transparent;transition:border-color .25s,transform .25s}
+.cat-item:hover{border-color:var(--turquesa);transform:translateY(-3px)}
+.cat-item h4{font-size:17px;font-weight:800}
+.cat-item .de{font-size:13px;color:var(--cinza);margin-top:6px}
+.cat-item .preco{font-size:13px;color:var(--turquesa);font-weight:700;margin-top:12px}
+.cat-nota{margin-top:26px;font-size:14px;color:var(--cinza)}
+.cat-nota b{color:var(--marinho)}
+
+/* DEPOIMENTOS */
+.dep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.dep{border-left:3px solid var(--turquesa);padding:8px 0 8px 26px}
+.dep p{font-size:clamp(16px,1.5vw,19px);font-weight:600;line-height:1.55}
+.dep .quem{margin-top:16px;font-size:13.5px;color:var(--cinza);font-weight:600}
+
+/* CTA FINAL */
+#contato{background:var(--marinho);color:#fff;text-align:center}
+#contato .sec-head{margin-bottom:40px}
+#contato .sec-head h2{margin:0 auto;color:#fff}
+#contato .sec-head p{margin:18px auto 0;color:rgba(255,255,255,.65)}
+.cta-final{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-whats{background:#25D366;color:#fff}
+.btn-whats:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(37,211,102,.35)}
+.btn-duda{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.3);color:#fff}
+.btn-duda:hover{background:rgba(255,255,255,.2)}
+
+/* FOOTER */
+footer{padding:44px 6vw;background:#04061f;color:rgba(255,255,255,.5);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer b{color:#fff}
+
+/* ===== ANIMAÇÕES ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* ===== RESPONSIVO ===== */
+@media(max-width:760px){
+  nav{display:none}
+  .menu-mobile{display:block;font-size:24px;background:none;border:none;color:var(--marinho);cursor:pointer}
+  section{padding:80px 6vw}
+  .hero h1{letter-spacing:-1px}
+}
+</style>
+</head>
+<body>
+<a href="#quem-somos" class="skip-link">Pular para o conteúdo</a>
+
+<header>
+  <a class="logo" href="#">D'CESAR<span>.</span></a>
+  <nav>
+    <a href="#quem-somos">Quem somos</a>
+    <a href="#o-que-fazemos">O que fazemos</a>
+    <a href="#trabalhos">Trabalhos</a>
+    <a href="#catalogo">Catálogo</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <button class="menu-mobile" aria-label="Abrir menu de navegação" aria-expanded="false" onclick="var n=document.getElementById('nav-m');var o=n.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+</header>
+<div id="nav-m" style="display:none">
+  <a href="#quem-somos">Quem somos</a><a href="#o-que-fazemos">O que fazemos</a><a href="#trabalhos">Trabalhos</a><a href="#catalogo">Catálogo</a><a href="#contato">Contato</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="num">CAMISETAS PERSONALIZADAS — DESDE 1999</div>
+  <h1>Sua ideia vira <em>estampa</em>. Nossa fábrica vira <em>realidade</em>.</h1>
+  <p>Sublimação, DTF e confecção sob encomenda. Produção própria em São Paulo para uniformes escolares, empresas, igrejas, formaturas e eventos.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#catalogo">Ver catálogo e preços</a>
+    <a class="btn btn-ghost" href="#contato">Pedir orçamento</a>
+  </div>
+  <img class="deco" src="fotos/foto-sublimacao-total.jpg" alt="" width="600" height="900">
+</div>
+
+<div class="marquee" role="marquee" aria-label="Serviços oferecidos"><div class="track">
+  <span>Sublimação total</span><span>Estampa DTF</span><span>Uniformes escolares</span><span>Camisetas de empresa</span><span>Formaturas</span><span>Eventos e igrejas</span><span>Peças lisas</span><span>Sob encomenda</span>
+  <span>Sublimação total</span><span>Estampa DTF</span><span>Uniformes escolares</span><span>Camisetas de empresa</span><span>Formaturas</span><span>Eventos e igrejas</span><span>Peças lisas</span><span>Sob encomenda</span>
+</div></div>
+
+<!-- ============ 001 QUEM SOMOS ============ -->
+<section id="quem-somos">
+  <div class="sec-head reveal">
+    <div class="num">001 — QUEM SOMOS</div>
+    <h2>Uma fábrica de família que atravessou quase três décadas.</h2>
+    <p>A D'Cesar nasceu em 1999 e cresceu peça por peça: de uma pequena confecção para uma produção própria completa — do corte à embalagem.</p>
+  </div>
+  <div class="somos-foto reveal">
+    <img src="fotos/foto-producao-prensa.jpg" alt="Prensa de sublimação em produção" width="900" height="600" loading="lazy">
+  </div>
+  <div class="somos-grid reveal">
+    <div class="stat"><b>27</b><span>anos de estrada, desde 1999</span></div>
+    <div class="stat"><b>49</b><span>produtos no catálogo 2026</span></div>
+    <div class="stat"><b>190+</b><span>clientes atendidos em 2026</span></div>
+    <div class="stat"><b>2.600+</b><span>peças produzidas este ano</span></div>
+  </div>
+  <p class="somos-texto reveal">[TEXTO PROVISÓRIO — aguardando sua história] Aqui entra o texto do Quem Somos que você me enviar: como começou, o que mudou, quem faz parte hoje e o que a D'Cesar tem de diferente. Enquanto isso, deixei esta vaga marcada para não esquecermos.</p>
+</section>
+
+<!-- ============ 002 O QUE FAZEMOS ============ -->
+<section id="o-que-fazemos">
+  <div class="sec-head reveal">
+    <div class="num">002 — O QUE FAZEMOS</div>
+    <h2>Da estampa à costura, tudo na nossa própria produção.</h2>
+    <p>Sem terceirizar o que importa: você fala com quem produz, acompanha o prazo e recebe o combinado.</p>
+  </div>
+  <div class="reveal" style="border-radius:18px;overflow:hidden;margin-bottom:26px;max-height:420px">
+    <img src="fotos/foto-producao-corte.jpg" alt="Corte de tecido na produção" width="900" height="600" loading="lazy" style="width:100%;height:100%;object-fit:cover">
+  </div>
+  <div class="servicos reveal">
+    <div class="servico"><div class="n">SERVIÇO 01</div><h3>Sublimação total</h3><p>Estampa integral da peça — a arte cobre a camiseta inteira, com cores vivas e toque macio. Ideal para times, formaturas e coleções.</p></div>
+    <div class="servico"><div class="n">SERVIÇO 02</div><h3>Estampa em DTF</h3><p>Figuras e textos de alta definição em poliéster, dry-fit e algodão. Perfeito para uniformes com logo, turmas e pequenos lotes.</p></div>
+    <div class="servico"><div class="n">SERVIÇO 03</div><h3>Confecção sob encomenda</h3><p>Camisetas, polos, baby looks, jaquetas, calças e acessórios produzidos sob medida para sua necessidade — com cor do corpo, manga e gola à escolha.</p></div>
+    <div class="servico"><div class="n">SERVIÇO 04</div><h3>Uniformes e eventos</h3><p>Escolas, igrejas, empresas e confraternizações: lotes com prazo garantido e acompanhamento direto com a gente.</p></div>
+  </div>
+</section>
+
+<!-- ============ 003 TRABALHOS ============ -->
+<section id="trabalhos">
+  <div class="sec-head reveal">
+    <div class="num">003 — TRABALHOS ENTREGUES</div>
+    <h2>Cada peça que sai daqui carrega uma história.</h2>
+    <p>Uma amostra do que produzimos. Fotos provisórias geradas para teste — serão substituídas pelas fotos reais da produção.</p>
+  </div>
+  <div class="galeria reveal">
+    <div class="foto"><img src="fotos/foto-sublimacao-total.jpg" alt="Camiseta com sublimação total" width="600" height="900" loading="lazy"><span class="tag">Sublimação total</span><div class="legenda">Arte completa cobrindo a peça</div></div>
+    <div class="foto"><img src="fotos/foto-dtf-uniforme.jpg" alt="Uniforme escolar com logo em DTF" width="600" height="900" loading="lazy"><span class="tag">DTF</span><div class="legenda">Uniforme escolar com logo</div></div>
+    <div class="foto"><img src="fotos/foto-empresa-confraternizacao.jpg" alt="Camisetas de empresa" width="900" height="600" loading="lazy"><span class="tag">Empresa</span><div class="legenda">Confraternização de equipe</div></div>
+    <div class="foto"><img src="fotos/foto-igreja-evento.jpg" alt="Polos de evento religioso" width="900" height="600" loading="lazy"><span class="tag">Igreja</span><div class="legenda">Evento religioso</div></div>
+    <div class="foto"><img src="fotos/foto-esporte-time.jpg" alt="Time com nome e número" width="900" height="600" loading="lazy"><span class="tag">Esporte</span><div class="legenda">Time com nome e número</div></div>
+    <div class="foto"><img src="fotos/foto-canecas-acessorios.jpg" alt="Canecas e squeezes personalizados" width="900" height="600" loading="lazy"><span class="tag">Acessórios</span><div class="legenda">Canecas e squeezes</div></div>
+  </div>
+</section>
+
+<!-- ============ 004 CATÁLOGO ============ -->
+<section id="catalogo">
+  <div class="sec-head reveal">
+    <div class="num">004 — CATÁLOGO 2026</div>
+    <h2>O que produzimos — e a partir de quanto.</h2>
+    <p>Preços de referência por peça. O valor final depende do tecido, da cor e da quantidade — fale com a gente para o orçamento exato.</p>
+  </div>
+  <div class="cat-grid reveal">
+    <div class="cat-item"><h4>Camiseta sublimação</h4><div class="de">Poliéster ou dry-fit · infantil ao G3</div><div class="preco">a partir de R$ 18,90</div></div>
+    <div class="cat-item"><h4>Camiseta DTF</h4><div class="de">Poliéster, dry-fit ou algodão · A4/A3</div><div class="preco">a partir de R$ 30,00</div></div>
+    <div class="cat-item"><h4>Camiseta sublimação total</h4><div class="de">Estampa integral · desconto por volume</div><div class="preco">a partir de R$ 30,00*</div></div>
+    <div class="cat-item"><h4>Polo sublimação total</h4><div class="de">Baby look e unissex · 3 cortes</div><div class="preco">a partir de R$ 45,00*</div></div>
+    <div class="cat-item"><h4>Camiseta lisa</h4><div class="de">Poliéster, dry-fit · algodão +R$4</div><div class="preco">a partir de R$ 12,90</div></div>
+    <div class="cat-item"><h4>Polo lisa</h4><div class="de">Poliéster/dry-fit · algodão +R$9</div><div class="preco">a partir de R$ 27,90</div></div>
+    <div class="cat-item"><h4>Baby look</h4><div class="de">Gola V · P ao EXG</div><div class="preco">a partir de R$ 14,90</div></div>
+    <div class="cat-item"><h4>Caneca 325ml</h4><div class="de">Porcelana AAA premium</div><div class="preco">a partir de R$ 20,00*</div></div>
+    <div class="cat-item"><h4>Squeeze alumínio</h4><div class="de">500 ml e 750 ml</div><div class="preco">a partir de R$ 29,90</div></div>
+    <div class="cat-item"><h4>Colete</h4><div class="de">Dry-fit · tamanho único</div><div class="preco">a partir de R$ 10,90</div></div>
+    <div class="cat-item"><h4>Bermuda / Calça</h4><div class="de">Helanca escolar · com ou sem DTF</div><div class="preco">a partir de R$ 25,00</div></div>
+    <div class="cat-item"><h4>Jacqueta</h4><div class="de">Helanca escolar · 02 ao G2</div><div class="preco">a partir de R$ 50,00</div></div>
+  </div>
+  <p class="cat-nota reveal">* Valores com desconto por volume já aplicados no exemplo mínimo. <b>Catálogo completo com 49 produtos</b> — peça a tabela inteira pelo WhatsApp.</p>
+</section>
+
+<!-- ============ 005 DEPOIMENTOS ============ -->
+<section id="depoimentos">
+  <div class="sec-head reveal">
+    <div class="num">005 — QUEM COMPRA, VOLTA</div>
+    <h2>O que dizem os clientes.</h2>
+    <p>[DEPOIMENTOS PROVISÓRIOS — substituir pelos reais quando você me enviar]</p>
+  </div>
+  <div class="dep-grid reveal">
+    <div class="dep"><p>"[Depoimento 1 — texto real de cliente que você escolher]"</p><div class="quem">— Nome do cliente · Escola/Empresa</div></div>
+    <div class="dep"><p>"[Depoimento 2 — texto real de cliente que você escolher]"</p><div class="quem">— Nome do cliente · Igreja/Evento</div></div>
+    <div class="dep"><p>"[Depoimento 3 — texto real de cliente que você escolher]"</p><div class="quem">— Nome do cliente · Formatura</div></div>
+  </div>
+</section>
+
+<!-- ============ 006 CONTATO ============ -->
+<section id="contato">
+  <div class="sec-head reveal">
+    <div class="num">006 — VAMOS PRODUZIR JUNTOS</div>
+    <h2>Conte o que você precisa. A gente produz.</h2>
+    <p>Orçamento rápido pelo WhatsApp — direto com quem vai fazer a sua peça.</p>
+  </div>
+  <div class="cta-final reveal">
+    <a class="btn btn-whats" href="https://wa.me/5511940162571">💬 WhatsApp Naty</a>
+    <a class="btn btn-duda" href="https://wa.me/5511940240199">💬 WhatsApp Duda</a>
+  </div>
+</section>
+
+<footer>
+  <div><b>D'CESAR</b> — camisetas personalizadas desde 1999</div>
+  <div>São Paulo — @dcesarcamisetas — www.dcesar.com.br</div>
+  <div>© 2026 D'Cesar. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+// Animações de entrada ao rolar
+const obs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('on') }),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Menu mobile
+const nm=document.getElementById('nav-m');
+nm.style.cssText='display:none;position:fixed;top:64px;left:0;right:0;background:#fff;z-index:99;padding:10px 6vw;border-bottom:1px solid rgba(7,11,48,.12)';
+nm.querySelectorAll('a').forEach(a=>{a.style.cssText='display:block;padding:12px 0;color:#070B30;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(7,11,48,.08)';a.onclick=()=>nm.classList.remove('open')});
+</script>
+</body>
+</html>
