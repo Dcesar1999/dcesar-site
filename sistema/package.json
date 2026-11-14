@@ -1,0 +1,15 @@
+{
+  "name": "pedidos-dcesar",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "sql.js": "^1.16.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

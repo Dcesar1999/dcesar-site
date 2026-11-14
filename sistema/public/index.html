@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D'Cesar — Sistema de Pedidos</title>
+<style>
+:root{--marinho:#070B30;--marinho2:#0d1550;--turquesa:#0094C0;--turquesa2:#00b4e6;--bege:#E8D5B0;--bege2:#f5ead4;--branco:#fff;--borda:#d9dee8;--cinza:#eef1f6;--verde:#1d7a3e;--vermelho:#b3261e}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(160deg,#f2f5fa 0%,#e8eef7 100%);color:#141a33;padding-bottom:60px;min-height:100vh}
+header{background:linear-gradient(120deg,var(--marinho) 0%,var(--marinho2) 55%,#12208a 100%);color:#fff;padding:16px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 3px 14px rgba(7,11,48,.35);position:relative;overflow:hidden}
+header::after{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,230,.25),transparent 70%)}
+.logo-img{height:52px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.titulo-sys{font-size:15px;font-weight:600}
+.sub{font-size:11.5px;opacity:.75}
+nav{display:flex;gap:2px;background:var(--marinho);padding:0 14px;box-shadow:0 2px 8px rgba(7,11,48,.25)}
+nav button{background:none;border:none;color:#9fb0e8;padding:13px 20px;font-size:13.5px;cursor:pointer;border-bottom:3px solid transparent;transition:.15s}
+nav button:hover{color:#fff}
+nav button.ativo{color:#fff;border-bottom-color:var(--turquesa2);font-weight:600}
+main{max-width:1150px;margin:20px auto;padding:0 14px}
+.card{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 6px rgba(7,11,48,.06)}
+.card h2{font-size:17px;color:var(--marinho);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:'';display:inline-block;width:4px;height:18px;background:linear-gradient(180deg,var(--turquesa),var(--turquesa2));border-radius:2px}
+.grid{display:grid;gap:10px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:760px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+label{display:block;font-size:10.5px;font-weight:700;color:#5a6480;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+input,select,textarea{width:100%;padding:10px 11px;border:1.5px solid var(--borda);border-radius:9px;font-size:14px;background:#fff;transition:.15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--turquesa);box-shadow:0 0 0 3px rgba(0,148,192,.15)}
+input[readonly]{cursor:pointer}
+.btn{display:inline-block;border:none;border-radius:9px;padding:11px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(7,11,48,.2)}
+.btn-azul{background:linear-gradient(120deg,var(--marinho),#1a2a9a);color:#fff}
+.btn-verde{background:linear-gradient(120deg,#1d7a3e,#28a35a);color:#fff}
+.btn-cinza{background:#e6eaf2;color:#333}
+.btn-verm{background:var(--vermelho);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--marinho);color:#fff;padding:9px 7px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px}
+th:first-child{border-radius:8px 0 0 0}th:last-child{border-radius:0 8px 0 0}
+td{padding:8px 7px;border-bottom:1px solid var(--borda);vertical-align:top}
+tr:nth-child(even) td{background:#f7f9fd}
+.tag{display:inline-block;background:var(--bege2);color:var(--marinho);font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;margin:1px 2px;border:1px solid #e8d9b8}
+.suave{color:#7a8499;font-size:12px}
+.paleta{display:flex;flex-wrap:wrap;gap:5px;padding:8px;border:1.5px solid var(--borda);border-radius:9px;background:#fafbfd}
+.cor-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,0,0,.15);cursor:pointer;transition:.12s;padding:0}
+.cor-dot:hover{transform:scale(1.18);border-color:#666}
+.cor-dot.sel{border:3px solid var(--turquesa);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--turquesa)}
+.cor-input-com-cor{font-weight:700;text-align:center}
+.aviso{background:#fff8e1;border:1px solid #f0d47a;border-radius:9px;padding:10px 13px;font-size:12.5px;color:#6b5d00;margin:10px 0}
+.pedido-card{border:1px solid var(--borda);border-radius:12px;padding:14px;margin-bottom:10px;background:#fff;box-shadow:0 1px 4px rgba(7,11,48,.05)}
+.num{font-weight:800;color:var(--marinho);font-size:15px}
+.pill{font-size:11px;padding:3px 11px;border-radius:12px;background:var(--bege2);color:var(--marinho);font-weight:600}
+.pill.pago{background:#e3f4e8;color:#17652f}
+.pill.pendente{background:#fdeee0;color:#8a4a00}
+.acoes{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.acoes .btn{padding:7px 13px;font-size:12px}
+.tabs-sec{display:none}
+.tabs-sec.ativa{display:block}
+.item-linha{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--borda);font-size:13px}
+.resumo-total{display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:var(--marinho);padding:8px 0}
+/* impressoes */
+#area-cupom,#area-ficha{display:none}
+@media print{
+  body{background:#fff;padding:0}
+  header,nav,main{display:none!important}
+  #area-cupom{display:block}
+  body.imprimir-ficha #area-cupom{display:none}
+  body.imprimir-ficha #area-ficha{display:block}
+  @page{size:80mm auto;margin:4mm}
+}
+#area-cupom{width:72mm;font-size:11px;font-family:'Courier New',monospace;color:#000}
+#area-cupom .c-centro{text-align:center}
+#area-cupom .c-titulo{font-size:16px;font-weight:800;letter-spacing:2px}
+#area-cupom hr{border:none;border-top:1px dashed #000;margin:4px 0}
+#area-cupom table{width:100%;font-size:10.5px}
+#area-cupom td{padding:2px 0;border:none;background:none!important}
+#area-cupom .c-total{font-size:13px;font-weight:800}
+#area-ficha{color:#000;font-size:12px}
+#area-ficha .f-titulo{font-size:22px;font-weight:800;color:#070B30}
+#area-ficha table{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
+#area-ficha th{background:#070B30!important;color:#fff;padding:6px;font-size:10px}
+#area-ficha td{border:1px solid #999;padding:5px 6px;background:#fff!important}
+#area-ficha .f-cor{font-weight:700}
+#area-ficha .f-box{border:1.5px solid #070B30;border-radius:9px;padding:8px 10px;margin-top:8px}
+@media print and (orientation:portrait){body.imprimir-ficha @page{size:A4}}
+</style>
+</head>
+<body>
+<header>
+  <img class="logo-img" src="dcesar-logo-branco.png" alt="D'Cesar Camisetas">
+  <div><div class="titulo-sys">Sistema de Pedidos</div><div class="sub">Orçamento · Pedido · Cupom · Ficha de produção</div></div>
+</header>
+<nav>
+  <button class="ativo" data-tab="novo">➕ Novo pedido</button>
+  <button data-tab="pedidos">📋 Pedidos salvos</button>
+  <button data-tab="tabela">💰 Tabela de preços</button>
+</nav>
+<main>
+<section id="tab-novo" class="tabs-sec ativa">
+  <div class="card">
+    <h2>Dados do pedido</h2>
+    <div class="grid g4">
+      <div><label>Cliente *</label><input id="f-cliente" placeholder="Nome do cliente"></div>
+      <div><label>Telefone</label><input id="f-telefone" placeholder="(11) 9...."></div>
+      <div><label>Vendedora</label><select id="f-vendedora"><option>Duda</option><option>Naty</option><option>Vinicius</option></select></div>
+      <div><label>Data de entrega *</label><input id="f-entrega" type="date"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Itens do pedido</h2>
+    <div class="grid g4">
+      <div><label>Seção</label><select id="i-secao"></select></div>
+      <div><label>Produto</label><select id="i-produto"></select></div>
+      <div id="wrap-tecido"><label>Tecido / material</label><select id="i-tecido" onchange="carregarCores()"></select></div>
+      <div id="wrap-variante"><label>Cor / acabamento</label><select id="i-variante"></select></div>
+      <div><label>Quantidade por tamanho *</label><div class="suave" style="margin-top:6px">Digite a qtde em cada tamanho abaixo</div></div>
+    </div>
+    <div id="i-tamanhos-individuais" style="margin-top:10px"></div>
+    <div id="i-cores-dinamicas" class="grid g4" style="margin-top:10px"></div>
+    <div id="i-algodao-box" style="margin-top:10px"></div>
+    <div id="i-adicionais" style="margin-top:10px"></div>
+    <div id="i-preco-manual" style="display:none;margin-top:10px"><label>Preço por unidade (R$)</label><input id="i-preco" type="number" step="0.01" placeholder="Digite o valor"></div>
+    <div style="margin-top:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div style="font-size:15px">Unitário: <b id="i-unit">R$ 0,00</b> · Subtotal: <b id="i-sub" style="color:var(--azul)">R$ 0,00</b> · Peso: <b id="i-peso">0</b> pts</div>
+      <button class="btn btn-azul" onclick="adicionarItem()">➕ Adicionar ao pedido</button>
+    </div>
+    <div id="lista-itens" style="margin-top:14px"></div>
+  </div>
+  <div class="card">
+    <h2>Resumo e pagamento</h2>
+    <div class="grid g4">
+      <div><label>Total de peças</label><input id="r-pecas" readonly></div>
+      <div><label>Peso de produção</label><input id="r-peso" readonly></div>
+      <div><label>Valor total</label><input id="r-total" readonly style="font-weight:700"></div>
+      <div><label>Sinal pago (R$)</label><input id="r-sinal" type="number" step="0.01" value="0" oninput="atualizarResumo()"></div>
+      <div><label>Forma de pagamento</label><select id="f-pagamento"><option>Pix</option><option>Dinheiro</option><option>Crédito</option><option>Débito</option><option>Link de pagamento</option></select></div>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div><label>Observações</label><textarea id="f-obs" rows="2" placeholder="Ex: entregar no endereço X, arte enviada pelo WhatsApp..."></textarea></div>
+      <div><label>Layout para os cortadores (opcional)</label>
+        <input type="file" id="f-layout" accept="image/png,image/jpeg,image/webp" onchange="carregarLayout(this.files)">
+        <div id="layout-preview" style="display:none;margin-top:6px;text-align:center">
+          <img id="layout-img" style="max-width:100%;max-height:200px;border:1.5px solid var(--borda);border-radius:9px"><br>
+          <button type="button" class="btn btn-verm" style="margin-top:5px;padding:5px 10px;font-size:12px" onclick="removerLayout()">Remover imagem</button>
+        </div>
+        <div class="suave" style="margin-top:3px;font-size:11px">Escolha o PNG ou cole com Ctrl+V</div>
+      </div>
+      <div><label>Saldo a pagar</label><input id="r-saldo" readonly style="font-weight:700;color:var(--vermelho)"></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-verde" onclick="salvarPedido()">💾 Salvar pedido</button>
+      <button class="btn btn-cinza" onclick="limparPedido()">Limpar</button>
+      <span class="suave" style="align-self:center">O pedido é salvo neste navegador. Depois de salvar, imprima o cupom e a ficha na aba "Pedidos salvos".</span>
+    </div>
+  </div>
+</section>
+<section id="tab-pedidos" class="tabs-sec">
+  <div class="card"><h2>Pedidos salvos</h2><div id="lista-pedidos"></div></div>
+</section>
+<section id="tab-tabela" class="tabs-sec">
+  <div class="card"><h2>Tabela de preços — Catálogo 2026</h2><div id="tabela-completa"></div></div>
+</section>
+
+</main>
+<div id="area-cupom"></div>
+<div id="area-ficha"></div>
+<script>
+/* ===== TABELA DE PREÇOS — Catálogo D'Cesar 2026 =====
+   v5.1: hierarquia Seção → Produto → TECIDO → COR (Branca/Colorida) → tamanhos
+   Preços idênticos aos validados. a3Delta = acréscimo da estampa A3 (produtos DTF). */
+
+const ADICIONAIS_COMUNS = {
+  manga_longa: {nome:'Manga longa', valor:4.90},
+  gola_v: {nome:'Gola V', valor:1.90},
+  sobreposto_manga: {nome:'Sobreposto (manga)', valor:1.90},
+  sobreposto_barra: {nome:'Sobreposto (barra)', valor:2.90},
+  estampa_costas: {nome:'Estampa nas costas', valor:2.90},
+  estampa_costas_a4: {nome:'Estampa nas costas (até A4)', valor:5.00},
+  estampa_costas_a3: {nome:'Estampa nas costas (A3)', valor:10.00},
+  estampa_manga: {nome:'Estampa na manga', valor:2.90},
+  faixa_refletiva: {nome:'Faixa refletiva', valor:4.90},
+  gola_polo: {nome:'Gola polo', valor:13.90},
+  estampa_duas_pernas: {nome:'Estampa nas duas pernas', valor:5.00},
+  estampa_frente_costas: {nome:'Estampa frente e costas', valor:2.90}
+};
+
+const PESOS = {
+  'Camiseta':1.6, 'Baby look':2.6, 'Raglan':1.9, 'Moletom':2.6, 'Body':1.9,
+  'Calça Helanca':4.4, 'Bermuda Helanca':4.4, 'Sacochila':1.3, 'Avental':6.5,
+  'Bata':6.5, 'Colete':1, 'Polo':2.6, 'Regata':1.6, 'Toalha':1.3, 'Caneca':0, 'Squeeze':0, 'Jaqueta':13
+};
+
+const FAIXAS = {
+  '02-08': {nome:'02 ao 08', tamanhos:['02','04','06','08']},
+  '10-14': {nome:'10 ao 14', tamanhos:['10','12','14']},
+  '16-GG': {nome:'16 ao GG', tamanhos:['16','P','M','G','GG']},
+  'G1':    {nome:'G1', tamanhos:['G1']},
+  'G2':    {nome:'G2', tamanhos:['G2']},
+  'G3':    {nome:'G3', tamanhos:['G3']},
+  'P-EXG': {nome:'P ao EXG', tamanhos:['P','M','G','GG','EXG']},
+  'P-GG':  {nome:'P ao GG', tamanhos:['P','M','G','GG']},
+  'P-G1':  {nome:'P ao G1', tamanhos:['P','M','G','GG','G1']},
+  'EXG':   {nome:'EXG', tamanhos:['EXG']},
+  'UNICO': {nome:'Tamanho único', tamanhos:['Único']}
+};
+
+const CORES_DCESAR = [
+  {nome:'Branco', hex:'#E8E8E8'}, {nome:'Prata', hex:'#B1B1B3'},
+  {nome:'Turquesa', hex:'#0094C0'}, {nome:'Laranja', hex:'#DC7300'},
+  {nome:'Lilás', hex:'#C1BCDA'}, {nome:'Rosa bb', hex:'#E1B4C4'},
+  {nome:'Pink', hex:'#C60474'}, {nome:'Vermelho', hex:'#A51B0F'},
+  {nome:'Mescla', hex:'#B4B4B7'}, {nome:'Amarelo', hex:'#E4B500'},
+  {nome:'Royal', hex:'#2B3990'}, {nome:'Bandeira', hex:'#00944E'},
+  {nome:'Verde bb', hex:'#B7D9C4'}, {nome:'Azul bb', hex:'#99C1D5'},
+  {nome:'Musgo', hex:'#063A1F'}, {nome:'Roxo', hex:'#4E0272'},
+  {nome:'Preto', hex:'#000000'}, {nome:'Marinho', hex:'#070B30'},
+  {nome:'Bordo', hex:'#4B0D02'}, {nome:'Bege', hex:'#E8D5B0'}
+];
+
+const CATALOGO = {
+  'SUBLIMAÇÃO': {
+    'Camiseta': {
+      tecidos:{
+        'Poliéster': {
+          'Branca':   {tamanhos:{'02-08':18.90,'10-14':19.90,'16-GG':22.90,'G1':24.90,'G2':26.90,'G3':28.90}},
+          'Colorida': {tamanhos:{'02-08':18.90,'10-14':19.90,'16-GG':24.90,'G1':26.90,'G2':28.90,'G3':30.90}}
+        },
+        'Dry-fit': {
+          'Branca':   {tamanhos:{'02-08':18.90,'10-14':19.90,'16-GG':22.90,'G1':24.90,'G2':26.90,'G3':28.90}},
+          'Colorida': {tamanhos:{'02-08':18.90,'10-14':19.90,'16-GG':24.90,'G1':26.90,'G2':28.90,'G3':30.90}}
+        }
+      },
+      adicionais:['manga_longa','gola_v','sobreposto_manga','sobreposto_barra','estampa_costas','estampa_manga','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Camiseta'
+    },
+    'Baby look (só gola V)': {
+      tecidos:{'Poliéster / Dry-fit': {'Branca':{tamanhos:{'P-EXG':20.90}}, 'Colorida':{tamanhos:{'P-EXG':20.90}}}},
+      adicionais:['manga_longa','sobreposto_manga','sobreposto_barra','estampa_costas','estampa_manga','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Baby look'
+    },
+    'Polo Feminina': {
+      tecidos:{'Poliéster': {'Branca':{tamanhos:{'P-EXG':35.90}}, 'Colorida':{tamanhos:{'P-EXG':35.90}}}},
+      adicionais:['manga_longa','faixa_refletiva','sobreposto_barra','estampa_costas','estampa_manga'],
+      cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Polo Tradicional': {
+      tecidos:{'Poliéster': {
+        'Branca':   {tamanhos:{'10-14':35.90,'16-GG':40.90,'G1':42.90,'G2':44.90,'G3':46.90}},
+        'Colorida': {tamanhos:{'10-14':35.90,'16-GG':40.90,'G1':42.90,'G2':44.90,'G3':46.90}}
+      }},
+      adicionais:['manga_longa','estampa_costas','estampa_manga','sobreposto_barra','faixa_refletiva'],
+      cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Raglan': {
+      tecidos:{'Poliéster': {
+        'Branca':   {tamanhos:{'02-08':25.90,'10-14':27.90,'16-GG':30.90,'G1':32.90}},
+        'Colorida': {tamanhos:{'02-08':25.90,'10-14':27.90,'16-GG':30.90,'G1':32.90}}
+      }},
+      adicionais:['manga_longa','sobreposto_manga','estampa_costas','faixa_refletiva','gola_polo'],
+      cores:['corpo','gola','manga'], peso:'Raglan'
+    },
+    'Body': {
+      tecidos:{'Ribana de Poliéster': {'Branca':{tamanhos:{'P-GG':18.90}}, 'Colorida':{tamanhos:{'P-GG':18.90}}}},
+      adicionais:['estampa_frente_costas'],
+      cores:['corpo'], peso:'Body'
+    },
+    'Regata': {
+      tecidos:{
+        'Poliéster': {
+          'Branca':   {tamanhos:{'P-GG':22.90,'G1':24.90}},
+          'Colorida': {tamanhos:{'P-GG':24.90,'G1':26.90}}
+        },
+        'Dry-fit': {'Branca':{tamanhos:{'P-GG':22.90,'G1':24.90}}}
+      },
+      adicionais:['faixa_refletiva','sobreposto_barra','estampa_costas'],
+      cores:['corpo','vies'], peso:'Regata'
+    },
+    'Sacochila': {
+      tecidos:{'': {'Única': {tamanhos:{'UNICO':4.50}}}},
+      manual:{nome:'Tamanho da estampa', opcoes:[{'A partir de 15x15':4.50},{'Máximo 50x50':40.00}]},
+      volume:[{min:11,desc:1.00},{min:31,desc:2.00},{min:51,consultar:true}],
+      adicionais:[], cores:['corpo'], peso:'Sacochila'
+    },
+    'Colete': {
+      tecidos:{'Dry-fit': {'Branca':{tamanhos:{'UNICO':20.90}}, 'Colorida':{tamanhos:{'UNICO':20.90}}}},
+      volume:[{min:11,preco:18.90}],
+      adicionais:['faixa_refletiva','estampa_costas'],
+      cores:['corpo'], peso:'Colete'
+    },
+    'Toalhinha de Mão': {
+      tecidos:{'': {'Consultar cores': {tamanhos:{'UNICO':12.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Toalha'
+    },
+    'Bata': {
+      tecidos:{'Oxford': {'Consultar cores': {tamanhos:{'UNICO':22.90}}}},
+      volume:[{min:11,preco:20.90}],
+      adicionais:['estampa_costas'],
+      cores:['corpo'], peso:'Bata'
+    },
+    'Avental Frontal': {
+      tecidos:{'Oxford': {'Consultar cores': {tamanhos:{'UNICO':22.90}}}},
+      volume:[{min:11,preco:20.90}],
+      adicionais:[], cores:['corpo'], peso:'Avental'
+    },
+    'Avental de Cintura': {
+      tecidos:{'Oxford': {'Consultar cores': {tamanhos:{'UNICO':20.90}}}},
+      volume:[{min:11,preco:18.90}],
+      adicionais:[], cores:['corpo'], peso:'Avental'
+    },
+    'Squeeze 500ml': {
+      tecidos:{'Alumínio': {'Única': {tamanhos:{'UNICO':29.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Squeeze'
+    },
+    'Caneca 325ml': {
+      tecidos:{'Porcelana AAA Premium': {'Única': {tamanhos:{'UNICO':35.00}}}},
+      volume:[{min:10,preco:30.00},{min:20,preco:25.00},{min:30,preco:20.00}],
+      adicionais:[], cores:['corpo'], peso:'Caneca'
+    },
+    'Squeeze 750ml': {
+      tecidos:{'Alumínio': {'Única': {tamanhos:{'UNICO':39.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Squeeze'
+    }
+  },
+  'PEÇAS LISAS': {
+    'Camiseta Lisa': {
+      tecidos:{
+        'Poliéster': {
+          'Branca':   {tamanhos:{'02-08':12.90,'10-14':13.90,'16-GG':14.90,'G1':16.90,'G2':18.90,'G3':20.90}, algodao:4.00},
+          'Colorida': {tamanhos:{'02-08':13.90,'10-14':14.90,'16-GG':17.90,'G1':19.90,'G2':21.90,'G3':23.90}, algodao:5.00}
+        },
+        'Dry-fit': {
+          'Branca':   {tamanhos:{'02-08':12.90,'10-14':13.90,'16-GG':14.90,'G1':16.90,'G2':18.90,'G3':20.90}, algodao:4.00},
+          'Colorida': {tamanhos:{'02-08':13.90,'10-14':14.90,'16-GG':17.90,'G1':19.90,'G2':21.90,'G3':23.90}, algodao:5.00}
+        }
+      },
+      adicionais:['manga_longa','gola_v','sobreposto_manga','sobreposto_barra','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Camiseta'
+    },
+    'Baby look Lisa (só gola V)': {
+      tecidos:{'Poliéster / Dry-fit': {'Branca':{tamanhos:{'P-EXG':14.90}, algodao:5.00}, 'Colorida':{tamanhos:{'P-EXG':14.90}, algodao:5.00}}},
+      adicionais:['manga_longa','sobreposto_manga','sobreposto_barra','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Baby look'
+    },
+    'Polo Feminina Lisa': {
+      tecidos:{'Poliéster / Dry-fit': {'Branca':{tamanhos:{'P-EXG':27.90}, algodao:9.00}, 'Colorida':{tamanhos:{'P-EXG':27.90}, algodao:9.00}}},
+      algodaoLabel:'Se for ALGODÃO OU PIQUET',
+      adicionais:['manga_longa','faixa_refletiva','sobreposto_barra'],
+      cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Polo Tradicional Lisa': {
+      tecidos:{'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'10-14':27.90,'16-GG':30.90,'G1':32.90,'G2':34.90,'G3':36.90}, algodao:9.00},
+          'Colorida': {tamanhos:{'10-14':27.90,'16-GG':30.90,'G1':32.90,'G2':34.90,'G3':36.90}, algodao:9.00}
+        }},
+      algodaoLabel:'Se for ALGODÃO OU PIQUET',
+      adicionais:['sobreposto_barra','manga_longa','faixa_refletiva'],
+      cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Raglan Lisa': {
+      tecidos:{'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'02-08':16.90,'10-14':18.90,'16-GG':20.90,'G1':22.90}, algodao:7.00},
+          'Colorida': {tamanhos:{'02-08':16.90,'10-14':18.90,'16-GG':20.90,'G1':22.90}, algodao:7.00}
+        }},
+      adicionais:['sobreposto_manga','sobreposto_barra','faixa_refletiva','manga_longa','gola_polo'],
+      cores:['corpo','gola','manga'], peso:'Raglan'
+    },
+    'Body Lisa': {
+      tecidos:{'Ribana de Poliéster': {'Branca':{tamanhos:{'P-GG':12.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Body'
+    },
+    'Bata Lisa': {
+      tecidos:{'Oxford': {'Branca':{tamanhos:{'UNICO':17.50}}, 'Colorida':{tamanhos:{'UNICO':17.50}}}},
+      adicionais:[], cores:['corpo'], peso:'Bata'
+    },
+    'Regata Lisa': {
+      tecidos:{
+        'Poliéster': {
+          'Branca':   {tamanhos:{'P-GG':14.90,'G1':16.90}, algodao:4.00},
+          'Colorida': {tamanhos:{'P-GG':17.90,'G1':19.90}, algodao:5.00}
+        },
+        'Dry-fit': {
+          'Branca':   {tamanhos:{'P-GG':14.90,'G1':16.90}, algodao:4.00},
+          'Colorida': {tamanhos:{'P-GG':17.90,'G1':19.90}, algodao:5.00}
+        }
+      },
+      adicionais:['faixa_refletiva','sobreposto_barra'],
+      cores:['corpo','vies'], peso:'Regata'
+    },
+    'Calça Brim Profissional': {
+      tecidos:{'Brim pesado': {'Branca':{tamanhos:{'P-GG':55.90,'EXG':60.90}}, 'Colorida':{tamanhos:{'P-GG':55.90,'EXG':60.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Calça Helanca'
+    },
+    'Colete Lisa': {
+      tecidos:{'Helanca': {'Branca':{tamanhos:{'UNICO':10.90}}, 'Colorida':{tamanhos:{'UNICO':10.90}}}},
+      adicionais:[], cores:['corpo'], peso:'Colete'
+    },
+    'Moletom': {
+      tecidos:{'Algodão': {'Consultar cores': {tamanhos:{'P-GG':55.00,'G1':60.00,'G2':60.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Moletom'
+    },
+    'Jaqueta': {
+      tecidos:{'Helanca': {'Consultar cores': {tamanhos:{'02-08':50.00,'10-14':60.00,'P-GG':70.00,'G1':80.00,'G2':90.00}}}},
+      adicionais:[], cores:['corpo','manga','gola'], peso:'Jaqueta'
+    },
+    'Toalhinha de Mão Lisa': {
+      tecidos:{'': {'Consultar cores': {tamanhos:{'UNICO':9.50}}}},
+      adicionais:[], cores:['corpo'], peso:'Toalha'
+    },
+    'Avental de Cintura Lisa': {
+      tecidos:{'Oxford': {'Consultar cores': {tamanhos:{'UNICO':12.90}}}},
+      volume:[{min:11,preco:10.00}],
+      adicionais:[], cores:['corpo'], peso:'Avental'
+    },
+    'Bermuda': {
+      tecidos:{'Helanca': {'Consultar cores': {tamanhos:{'02-08':25.00,'10-14':30.00,'16-GG':35.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Bermuda Helanca'
+    },
+    'Calça': {
+      tecidos:{'Helanca': {'Consultar cores': {tamanhos:{'02-08':45.00,'10-14':50.00,'16-GG':55.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Calça Helanca'
+    },
+    'Avental Frontal Lisa': {
+      tecidos:{'Oxford': {'Consultar cores': {tamanhos:{'UNICO':17.50}}}},
+      adicionais:[], cores:['corpo'], peso:'Avental'
+    }
+  },
+  'SUBLIMAÇÃO TOTAL': {
+    'Camiseta Sublimação Total': {
+      tecidos:{'Poliéster / Dry-fit': {'Branca': {tamanhos:{'02-08':45.90,'10-14':48.90,'16-GG':50.90}}}},
+      volume:[{min:15,preco:42.90},{min:30,preco:39.90},{min:50,preco:36.90},{min:100,preco:33.00},{min:200,preco:30.00}],
+      volumeFaixa:{
+        '10-14':[{min:15,preco:45.90},{min:30,preco:42.90},{min:50,preco:39.90},{min:100,preco:36.00},{min:200,preco:33.00}],
+        '16-GG':[{min:15,preco:47.90},{min:30,preco:44.90},{min:50,preco:41.90},{min:100,preco:38.00},{min:200,preco:35.00}]
+      },
+      acrescimoG:{'G1':5.00,'G2':10.00},
+      adicionais:['manga_longa'], cores:['corpo','gola','manga'], peso:'Camiseta'
+    },
+    'Polo Sublimação Total': {
+      corLabel:'Corte',
+      tecidos:{'Poliéster / Dry-fit': {
+        'Baby look (P ao G1)': {tamanhos:{'P-G1':63.90}},
+        'Unissex (10 ao 14)': {tamanhos:{'10-14':60.90}},
+        'Unissex (16 ao GG)': {tamanhos:{'16-GG':63.90}}
+      }},
+      volumeFaixa:{
+        'P-G1':[{min:15,preco:60.90},{min:30,preco:57.90},{min:50,preco:54.90},{min:100,preco:51.00},{min:200,preco:48.00}],
+        '10-14':[{min:15,preco:57.90},{min:30,preco:54.90},{min:50,preco:51.90},{min:100,preco:48.00},{min:200,preco:45.00}],
+        '16-GG':[{min:15,preco:60.90},{min:30,preco:57.90},{min:50,preco:54.90},{min:100,preco:51.00},{min:200,preco:48.00}]
+      },
+      acrescimoG:{'G1':5.00,'G2':10.00},
+      adicionais:['manga_longa'], cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Raglan Sublimação Total': {
+      tecidos:{'Poliéster / Dry-fit': {'Branca': {tamanhos:{'02-08':50.90,'10-14':53.90,'16-GG':56.90}}}},
+      volumeFaixa:{
+        '02-08':[{min:15,preco:47.90},{min:30,preco:44.90},{min:50,preco:41.90},{min:100,preco:38.00},{min:200,preco:35.00}],
+        '10-14':[{min:15,preco:50.90},{min:30,preco:47.90},{min:50,preco:44.90},{min:100,preco:41.00},{min:200,preco:38.00}],
+        '16-GG':[{min:15,preco:53.90},{min:30,preco:50.90},{min:50,preco:47.90},{min:100,preco:44.00},{min:200,preco:41.00}]
+      },
+      acrescimoG:{'G1':5.00},
+      adicionais:['manga_longa'], cores:['corpo','gola','manga'], peso:'Raglan'
+    },
+    'Bata Sublimação Total': {
+      tecidos:{'Oxford': {'Única': {tamanhos:{'UNICO':35.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Bata'
+    },
+    'Colete Sublimação Total': {
+      tecidos:{'Helanca': {'Única': {tamanhos:{'UNICO':32.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Colete'
+    },
+    'Body Sublimação Total': {
+      tecidos:{'Ribana de Poliéster': {'Única': {tamanhos:{'P-GG':30.00}}}},
+      adicionais:[], cores:['corpo'], peso:'Body'
+    }
+  },
+  'ESTAMPA EM DTF': {
+    'Camiseta DTF': {
+      tecidos:{
+        'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'02-08':30.00,'10-14':32.50,'16-GG':35.90,'G1':37.90,'G2':39.90,'G3':41.90}},
+          'Colorida': {tamanhos:{'02-08':30.00,'10-14':32.50,'16-GG':35.90,'G1':37.90,'G2':39.90,'G3':41.90}}
+        },
+        'Algodão': {
+          'Branca':   {tamanhos:{'02-08':40.00,'10-14':42.50,'16-GG':45.90,'G1':47.90,'G2':49.90,'G3':51.90}},
+          'Colorida': {tamanhos:{'02-08':40.00,'10-14':42.50,'16-GG':45.90,'G1':47.90,'G2':49.90,'G3':51.90}}
+        }
+      },
+      a3Delta:5.00,
+      adicionais:['manga_longa','gola_v','sobreposto_manga','sobreposto_barra','estampa_costas_a4','estampa_costas_a3','estampa_manga','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Camiseta'
+    },
+    'Baby look DTF (só gola V)': {
+      tecidos:{
+        'Poliéster / Dry-fit': {'Branca':{tamanhos:{'P-EXG':35.90}}, 'Colorida':{tamanhos:{'P-EXG':35.90}}},
+        'Algodão': {'Branca':{tamanhos:{'P-EXG':45.90}}, 'Colorida':{tamanhos:{'P-EXG':45.90}}}
+      },
+      a3Delta:5.00,
+      adicionais:['manga_longa','sobreposto_manga','sobreposto_barra','estampa_costas_a4','estampa_costas_a3','estampa_manga','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Baby look'
+    },
+    'Regata DTF': {
+      tecidos:{
+        'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'P-GG':35.90,'G1':37.90}},
+          'Colorida': {tamanhos:{'P-GG':35.90,'G1':37.90}}
+        },
+        'Algodão': {
+          'Branca':   {tamanhos:{'P-GG':45.90,'G1':47.90}},
+          'Colorida': {tamanhos:{'P-GG':45.90,'G1':47.90}}
+        }
+      },
+      a3Delta:5.00,
+      adicionais:['manga_longa','sobreposto_manga','sobreposto_barra','estampa_costas_a4','estampa_costas_a3','estampa_manga','faixa_refletiva'],
+      cores:['corpo','vies'], peso:'Regata'
+    },
+    'Polo DTF': {
+      tecidos:{
+        'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'10-14':48.50,'16-GG':50.90,'G1':52.90,'G2':54.90,'G3':56.90}},
+          'Colorida': {tamanhos:{'10-14':48.50,'16-GG':50.90,'G1':52.90,'G2':54.90,'G3':56.90}}
+        },
+        'Algodão ou Piquet': {
+          'Branca':   {tamanhos:{'10-14':58.50,'16-GG':60.90,'G1':62.90,'G2':64.90,'G3':66.90}},
+          'Colorida': {tamanhos:{'10-14':58.50,'16-GG':60.90,'G1':62.90,'G2':64.90,'G3':66.90}}
+        }
+      },
+      a3Delta:{default:5.00, faixas:{'10-14':4.00}},
+      adicionais:['manga_longa','sobreposto_barra','estampa_costas_a4','estampa_costas_a3','estampa_manga','faixa_refletiva'],
+      cores:['corpo','manga','punho','gola','peitilho'], peso:'Polo'
+    },
+    'Moletom DTF': {
+      tecidos:{'Algodão': {'Única': {tamanhos:{'02-08':55.50,'10-14':57.90,'16-GG':60.00,'G1':62.90,'G2':64.90,'G3':66.90}}}},
+      a3Delta:5.00,
+      adicionais:['faixa_refletiva','estampa_costas_a4','estampa_costas_a3','estampa_manga'],
+      cores:['corpo'], peso:'Moletom'
+    },
+    'Jaqueta DTF': {
+      tecidos:{'Helanca': {'Única': {tamanhos:{'02-08':70.50,'10-14':72.90,'16-GG':75.00,'G1':77.90,'G2':79.90,'G3':81.90}}}},
+      a3Delta:5.00,
+      adicionais:['faixa_refletiva','estampa_costas_a4','estampa_costas_a3','estampa_manga'],
+      cores:['corpo','manga','gola'], peso:'Jaqueta'
+    },
+    'Bermuda DTF': {
+      tecidos:{'Helanca': {'Única': {tamanhos:{'02-08':35.50,'10-14':37.90,'16-GG':40.00,'G1':42.90,'G2':44.90,'G3':46.90}}}},
+      adicionais:['faixa_refletiva','estampa_duas_pernas'],
+      cores:['corpo'], peso:'Bermuda Helanca'
+    },
+    'Calça DTF': {
+      tecidos:{'Helanca': {'Única': {tamanhos:{'02-08':55.50,'10-14':57.90,'16-GG':60.00,'G1':62.90,'G2':64.90,'G3':66.90}}}},
+      adicionais:['faixa_refletiva','estampa_duas_pernas'],
+      cores:['corpo'], peso:'Calça Helanca'
+    },
+    'Calça DTF Brim Profissional': {
+      tecidos:{'Brim': {'Única': {tamanhos:{'P-GG':60.00,'G1':62.90,'G2':64.90,'G3':66.90}}}},
+      adicionais:['faixa_refletiva','estampa_duas_pernas'],
+      cores:['corpo'], peso:'Calça Helanca'
+    },
+    'Raglan DTF': {
+      tecidos:{
+        'Poliéster / Dry-fit': {
+          'Branca':   {tamanhos:{'02-08':35.00,'10-14':37.50,'16-GG':40.90,'G1':42.90,'G2':44.90,'G3':46.90}},
+          'Colorida': {tamanhos:{'02-08':35.00,'10-14':37.50,'16-GG':40.90,'G1':42.90,'G2':44.90,'G3':46.90}}
+        },
+        'Algodão': {
+          'Branca':   {tamanhos:{'02-08':45.00,'10-14':47.50,'16-GG':50.90,'G1':52.90,'G2':54.90,'G3':56.90}},
+          'Colorida': {tamanhos:{'02-08':45.00,'10-14':47.50,'16-GG':50.90,'G1':52.90,'G2':54.90,'G3':56.90}}
+        }
+      },
+      a3Delta:5.00,
+      adicionais:['manga_longa','gola_v','sobreposto_manga','gola_polo','estampa_costas_a4','estampa_costas_a3','estampa_manga','faixa_refletiva'],
+      cores:['corpo','gola','manga'], peso:'Raglan'
+    }
+  }
+};
+
+/* ===== ESTADO ===== */
+let itens = [];
+let pedidos = JSON.parse(localStorage.getItem('dcesar_pedidos')||'[]');
+let seq = Number(localStorage.getItem('dcesar_seq')||'0');
+
+const fmt = v => 'R$ ' + Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
+const el = id => document.getElementById(id);
+
+/* ===== NAVEGAÇÃO ===== */
+document.querySelectorAll('nav button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('ativo'));
+    b.classList.add('ativo');
+    document.querySelectorAll('.tabs-sec').forEach(s=>s.classList.remove('ativa'));
+    el('tab-'+b.dataset.tab).classList.add('ativa');
+    if(b.dataset.tab==='pedidos') renderPedidos();
+    if(b.dataset.tab==='tabela') renderTabela();
+  };
+});
+
+function carregarPedidos(){
+  fetch('/api/pedidos')
+    .then(r=>r.json())
+    .then(d=>{ pedidos = d; renderPedidos(); })
+    .catch(e=>console.warn('Servidor indisponível — pedidos locais não carregados:', e.message));
+}
+carregarPedidos();
+// atualizar a cada 20s para ver pedidos das outras vendedoras em tempo quase real
+setInterval(carregarPedidos, 20000);
+
+/* ===== SELETORES EM CASCATA ===== */
+function iniciar(){
+  const selS = el('i-secao');
+  selS.innerHTML = Object.keys(CATALOGO).map(s=>`<option>${s}</option>`).join('');
+  selS.onchange = carregarProdutos;
+  ['i-produto'].forEach(id=>el(id).onchange=carregarVariantes);
+  carregarProdutos();
+}
+function carregarProdutos(){
+  const sec = el('i-secao').value;
+  el('i-produto').innerHTML = Object.keys(CATALOGO[sec]).map(p=>`<option>${p}</option>`).join('');
+  carregarVariantes();
+}
+function prodAtual(){ return CATALOGO[el('i-secao').value][el('i-produto').value]; }
+function carregarVariantes(){
+  const p = prodAtual();
+  const tecidos = Object.keys(p.tecidos);
+  el('i-tecido').innerHTML = tecidos.map(t=>`<option>${t||'—'}</option>`).join('');
+  el('wrap-tecido').style.display = (tecidos.length===1 && !tecidos[0]) ? 'none' : '';
+  carregarCores();
+}
+function carregarCores(){
+  const p = prodAtual();
+  const t = el('i-tecido').value.replace('—','');
+  const cores = Object.keys((p.tecidos[t]||p.tecidos[Object.keys(p.tecidos)[0]]));
+  const lbl = p.corLabel || 'Cor / acabamento';
+  el('wrap-variante').querySelector('label').textContent = lbl;
+  el('i-variante').innerHTML = cores.map(c=>`<option>${c}</option>`).join('');
+  el('wrap-variante').style.display = cores.length>1 ? '' : 'none';
+  el('i-variante').onchange = carregarTamanhos;
+  carregarTamanhos();
+}
+function faixaTamanhos(p, tecido, cor){
+  const v = ((p.tecidos||{})[tecido]||{})[cor];
+  return v ? v.tamanhos : Object.values(Object.values(p.tecidos)[0])[0].tamanhos;
+}
+function carregarTamanhos(){
+  const p = prodAtual();
+  const tams = faixaTamanhos(p, el('i-tecido').value.replace('—',''), el('i-variante').value);
+  let linhas='';
+  for(const [faixaId, preco] of Object.entries(tams)){
+    const f = FAIXAS[faixaId];
+    if(!f){ linhas += `<div><label style="text-transform:none">${faixaId} <span class="suave">(${fmt(preco)})</span></label><input class="tam-qtde" data-tam="${faixaId}" data-preco="${preco}" type="number" min="0" value="" placeholder="0" oninput="atualizarPreco()"></div>`; continue; }
+    for(const t of f.tamanhos){
+      linhas += `<div><label style="text-transform:none">${t} <span class="suave">(${fmt(preco)})</span></label><input class="tam-qtde" data-tam="${t}" data-faixa="${faixaId}" data-preco="${preco}" type="number" min="0" value="" placeholder="0" oninput="atualizarPreco()"></div>`;
+    }
+  }
+  el('i-tamanhos-individuais').innerHTML = '<label>Quantidade por tamanho *</label><div class="grid g4">'+linhas+'</div>';
+  atualizarAdicionais();
+}
+function escolherCor(campo, nome, hex, btn){
+  el('i-cor-'+campo).value = nome;
+  el('i-cor-'+campo).style.borderColor = hex;
+  el('i-cor-'+campo).style.background = hex;
+  el('i-cor-'+campo).style.color = ['#000000','#070B30','#4B0D02','#063A1F','#4E0272','#2B3990','#A51B0F','#C60474'].includes(hex) ? '#fff' : '#1a1a2e';
+  document.querySelectorAll(`.paleta[data-alvo="${campo}"] .cor-dot`).forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function limparCor(campo){
+  const inp = el('i-cor-'+campo);
+  inp.value=''; inp.style.background=''; inp.style.color=''; inp.style.borderColor='';
+  document.querySelectorAll(`.paleta[data-alvo="${campo}"] .cor-dot`).forEach(b=>b.classList.remove('sel'));
+}
+function atualizarAdicionais(){
+  const p = prodAtual();
+  // cores dinâmicas: gerar campos conforme o produto (corpo, gola, manga, punho, peitilho, vies)
+  const coresBox = el('i-cores-dinamicas');
+  const LABELS = {corpo:'Cor do corpo', gola:'Cor da gola', manga:'Cor da manga', punho:'Cor do punho', peitilho:'Cor do peitilho', vies:'Cor do viés'};
+  coresBox.innerHTML = (p.cores||['corpo']).map(c=>`
+    <div><label>${LABELS[c]}</label>
+      <div class="paleta" data-alvo="${c}">
+        ${CORES_DCESAR.map(co=>`<button type="button" class="cor-dot" title="${co.nome}" style="background:${co.hex}" onclick="escolherCor('${c}','${co.nome}','${co.hex}',this)"></button>`).join('')}
+      </div>
+      <input id="i-cor-${c}" readonly placeholder="Clique numa cor" onclick="limparCor('${c}')">
+    </div>`).join('');
+  const algBox = el('i-algodao-box');
+  const tecidoAtual = el('i-tecido').value.replace('—','');
+  const variAtual = ((p.tecidos||{})[tecidoAtual]||{})[el('i-variante').value] || Object.values(Object.values(p.tecidos)[0])[0];
+  if(variAtual.algodao){
+    algBox.style.display='';
+    algBox.innerHTML = `<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:400;text-transform:none;border:1.5px solid var(--borda);border-radius:9px;padding:9px 11px;cursor:pointer;background:#fafbfd">
+      <input type="checkbox" id="i-algodao" onchange="atualizarPreco()"> <b>${p.algodaoLabel||'Se for ALGODÃO'}</b> <span style="color:var(--azul2);font-weight:700">+${fmt(variAtual.algodao)}</span></label>`;
+  } else { algBox.style.display='none'; algBox.innerHTML=''; }
+  // adicionais
+  const box = el('i-adicionais');
+  if(!p.adicionais || !p.adicionais.length){ box.innerHTML=''; box.style.display='none'; }
+  else{
+    box.style.display='';
+    box.innerHTML = '<label>Adicionais (somam ao unitário)</label><div style="display:flex;flex-wrap:wrap;gap:6px">'+
+      p.adicionais.map(id=>{
+        const a = ADICIONAIS_COMUNS[id];
+        return `<label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:400;text-transform:none;border:1px solid var(--borda);border-radius:7px;padding:6px 9px;cursor:pointer">
+          <input type="checkbox" class="add-ck" data-id="${id}" onchange="atualizarPreco()"> ${a.nome} <b style="color:var(--azul2)">+${fmt(a.valor)}</b></label>`;
+      }).join('')+'</div>';
+  }
+  // estampa A3 (DTF): escolher se a estampa frontal é A4 ou A3
+  if(p.a3Delta){
+    const base = box.querySelector('.add-ck') ? '<hr style="border:none;border-top:1px solid var(--borda);margin:8px 0">' : '';
+    box.insertAdjacentHTML('beforeend', base+'<div><label>Tamanho da estampa frontal</label><select id="i-estampa" onchange="atualizarPreco()"><option value="A4">Até A4 (tabela normal)</option><option value="A3">A3 (tabela A3)</option></select></div>');
+  }
+  // manual (sacochila)
+  el('i-preco-manual').style.display = p.manual ? '' : 'none';
+  atualizarPreco();
+}
+function calcularItem(){
+  const p = prodAtual();
+  const tecido = el('i-tecido').value.replace('—','');
+  const vari = el('i-variante').value;
+  const variAtual = ((p.tecidos||{})[tecido]||{})[vari] || Object.values(Object.values(p.tecidos)[0])[0];
+  const algCk = el('i-algodao');
+  const emAlgodao = !!(algCk && algCk.checked && variAtual && variAtual.algodao);
+  const estampaA3 = el('i-estampa') && el('i-estampa').value==='A3';
+  const deltaA3 = (faixa)=>{
+    if(!estampaA3 || !p.a3Delta) return 0;
+    if(typeof p.a3Delta==='number') return p.a3Delta;
+    return (p.a3Delta.faixas&&p.a3Delta.faixas[faixa])!=null ? p.a3Delta.faixas[faixa] : p.a3Delta.default;
+  };
+  let qtde=0, valor=0; const precos={};
+  document.querySelectorAll('.tam-qtde').forEach(inp=>{
+    const q = Number(inp.value)||0;
+    if(q<=0) return;
+    qtde += q;
+    let preco = Number(inp.dataset.preco);
+    const faixa = inp.dataset.faixa;
+    if(p.volumeFaixa && faixa){
+      const vol = [...(p.volumeFaixa[faixa]||[])].reverse().find(v=>qtde>=v.min);
+      if(vol) preco = vol.preco;
+    }
+    if(p.acrescimoG && p.acrescimoG[inp.dataset.tam]) preco += p.acrescimoG[inp.dataset.tam];
+    preco += deltaA3(faixa);
+    if(emAlgodao && variAtual.algodao) preco += variAtual.algodao;
+    precos[inp.dataset.tam]=preco;
+    valor += preco*q;
+  });
+  if(qtde===0) return {qtde:0, valor:0, unitMedio:0};
+  if(p.manual && el('i-preco') && Number(el('i-preco').value)>0){
+    const pm = Number(el('i-preco').value);
+    valor = qtde*pm; for(const k in precos) precos[k]=pm;
+  }
+  if(p.volume){
+    const vol = [...p.volume].reverse().find(v=>qtde>=v.min);
+    if(vol && vol.preco){ valor = qtde*vol.preco; for(const k in precos) precos[k]=vol.preco; }
+    else if(vol && vol.desc){ const u2=valor/qtde - vol.desc; valor = qtde*u2; for(const k in precos) precos[k]=u2; }
+  }
+  const add = [...document.querySelectorAll('.add-ck:checked')].reduce((s,c)=>s+ADICIONAIS_COMUNS[c.dataset.id].valor,0);
+  valor += add*qtde;
+  return {qtde, valor, unitMedio: valor/qtde, precos};
+}
+function precoUnit(){
+  const r = calcularItem();
+  return {base:r.unitMedio, add:0, total:r.unitMedio};
+}
+function pesoItem(){
+  const p = prodAtual();
+  let peso = PESOS[p.peso]||0;
+  const temMangaLonga = [...document.querySelectorAll('.add-ck:checked')].some(c=>c.dataset.id==='manga_longa');
+  if(temMangaLonga && p.peso==='Camiseta') peso = PESOS['Manga Longa'];
+  return peso;
+}
+function qtdeDosTamanhos(){
+  let t=0;
+  document.querySelectorAll('.tam-qtde').forEach(inp=>{ t += Number(inp.value)||0; });
+  return t;
+}
+function atualizarPreco(){
+  const r = calcularItem();
+  el('i-unit').textContent = fmt(r.unitMedio||0);
+  el('i-sub').textContent = fmt(r.valor||0);
+  el('i-peso').textContent = ((pesoItem()||0)*r.qtde).toFixed(1);
+}
+function adicionarItem(){
+  const p = prodAtual();
+  const u = calcularItem();
+  if(u.qtde<=0){ alert('Informe a quantidade em pelo menos um tamanho.'); return; }
+  const adicionais = [...document.querySelectorAll('.add-ck:checked')].map(c=>ADICIONAIS_COMUNS[c.dataset.id].nome);
+  const estampa = el('i-estampa') ? el('i-estampa').value : null;
+  // cores dinâmicas conforme o produto
+  const cores = {};
+  (p.cores||['corpo']).forEach(c=>{ const v = el('i-cor-'+c); if(v && v.value) cores[c]=v.value; });
+  // tamanhos individuais: {tamanho: qtde}
+  const tamsInd = {};
+  document.querySelectorAll('.tam-qtde').forEach(inp=>{
+    const q = Number(inp.value)||0;
+    if(q>0) tamsInd[inp.dataset.tam]=q;
+  });
+  itens.push({
+    secao: el('i-secao').value, produto: el('i-produto').value,
+    tecido: el('i-tecido').value.replace('—',''),
+    variante: (el('i-tecido').value!=='—'?el('i-tecido').value+' — ':'') + el('i-variante').value + ((el('i-algodao')&&el('i-algodao').checked)?' — ALGODÃO':''),
+    tamanho: Object.keys(tamsInd).map(k=>`${tamsInd[k]}-${k}`).join(', '), tamanhos: tamsInd,
+    tamanhosPrecos: JSON.parse(JSON.stringify(u.precos||{})),
+    qtde: u.qtde, cores,
+    adicionais, estampaA3: estampa==='A3',
+    unit: u.unitMedio, subtotal: u.valor, peso: (pesoItem()||0)*u.qtde
+  });
+  renderItens(); limparItem(); atualizarResumo();
+}
+function limparItem(){
+  document.querySelectorAll('.tam-qtde').forEach(inp=>inp.value='');
+  document.querySelectorAll('#i-cores-dinamicas input').forEach(v=>v.value='');
+  document.querySelectorAll('.add-ck').forEach(c=>c.checked=false);
+  carregarProdutos();
+}
+function renderItens(){
+  if(!itens.length){ el('lista-itens').innerHTML='<div class="suave">Nenhum item ainda — escolha produto, cores e quantidade acima.</div>'; return; }
+  el('lista-itens').innerHTML = itens.map((it,i)=>`
+    <div class="item-linha">
+      <div><b>${it.qtde}× ${it.produto}</b> (${it.variante})<br>
+        ${Object.entries(it.tamanhos).map(([k,q])=>`<span class="tag">${q}× ${k}</span>`).join('')}
+        ${Object.entries(it.cores||{}).map(([c,v])=>`<span class="tag">${CORES_LABEL[c]}: ${v}</span>`).join('')}
+        ${it.estampaA3?'<span class="tag">Estampa A3</span>':''}
+        ${it.adicionais.map(a=>`<span class="tag">${a}</span>`).join('')}
+      </div>
+      <div style="text-align:right;white-space:nowrap"><b>${fmt(it.subtotal)}</b><br><span class="suave">${it.peso.toFixed(1)} pts</span><br>
+        <button class="btn btn-verm" style="padding:3px 9px;font-size:11px" onclick="removerItem(${i})">✕</button></div>
+    </div>`).join('');
+}
+function removerItem(i){ itens.splice(i,1); renderItens(); atualizarResumo(); }
+function atualizarResumo(){
+  const pecas = itens.reduce((s,i)=>s+i.qtde,0);
+  const peso = itens.reduce((s,i)=>s+i.peso,0);
+  const total = itens.reduce((s,i)=>s+i.subtotal,0);
+  const sinal = Number(el('r-sinal').value)||0;
+  el('r-pecas').value = pecas;
+  el('r-peso').value = peso.toFixed(1)+' pontos';
+  el('r-total').value = fmt(total);
+  el('r-saldo').value = fmt(total-sinal);
+}
+
+/* ===== PEDIDOS ===== */
+function salvarPedido(){
+  const cliente = el('f-cliente').value.trim();
+  if(!cliente){ alert('Preencha o nome do cliente.'); return; }
+  if(!itens.length){ alert('Adicione pelo menos 1 item.'); return; }
+  const total = itens.reduce((s,i)=>s+i.subtotal,0);
+  const sinal = Number(el('r-sinal').value)||0;
+  seq++; localStorage.setItem('dcesar_seq', seq);
+  const p = {
+    num: String(seq).padStart(4,'0'),
+    data: new Date().toLocaleDateString('pt-BR'),
+    cliente, telefone: el('f-telefone').value, vendedora: el('f-vendedora').value, pagamento: el('f-pagamento').value,
+    layout: layoutData,
+    entrega: dataBR(el('f-entrega').value), obs: el('f-obs').value,
+    itens: JSON.parse(JSON.stringify(itens)),
+    pecas: itens.reduce((s,i)=>s+i.qtde,0), peso: itens.reduce((s,i)=>s+i.peso,0),
+    total, sinal, saldo: total-sinal, pago: sinal>=total
+  };
+  pedidos.unshift(p);
+  localStorage.setItem('dcesar_pedidos', JSON.stringify(pedidos));
+  limparPedido();
+  alert('Pedido '+p.num+' salvo! Abra a aba "Pedidos salvos" para imprimir o cupom e a ficha.');
+  document.querySelector('[data-tab="pedidos"]').click();
+}
+function dataBR(iso){ if(!iso) return ''; const p=iso.split('-'); return `${p[2]}/${p[1]}/${p[0]}`; }
+/* ===== Layout para cortadores (imagem anexada ao pedido) ===== */
+let layoutData = null;
+function processarImagem(blob, cb){
+  const img = new Image();
+  const url = URL.createObjectURL(blob);
+  img.onload = ()=>{
+    const maxW = 1400;
+    const scale = Math.min(1, maxW/img.width);
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(url);
+    cb(c.toDataURL(blob.type==='image/png'?'image/png':'image/jpeg', 0.9));
+  };
+  img.src = url;
+}
+function carregarLayout(files){
+  if(!files || !files[0]) return;
+  processarImagem(files[0], d=>{ layoutData=d; mostrarLayout(); });
+}
+function mostrarLayout(){
+  if(layoutData){ el('layout-preview').style.display=''; el('layout-img').src=layoutData; }
+  else el('layout-preview').style.display='none';
+}
+function removerLayout(){ layoutData=null; el('f-layout').value=''; mostrarLayout(); }
+document.addEventListener('paste', e=>{
+  const items = e.clipboardData && e.clipboardData.items;
+  if(!items) return;
+  for(const it of items){
+    if(it.type && it.type.startsWith('image/')){
+      const f = it.getAsFile();
+      if(f){ processarImagem(f, d=>{ layoutData=d; mostrarLayout(); }); e.preventDefault(); }
+      break;
+    }
+  }
+});
+function limparPedido(){
+  itens=[]; renderItens(); atualizarResumo();
+  el('f-cliente').value=''; el('f-telefone').value=''; el('f-obs').value='';
+  el('r-sinal').value=0; el('f-entrega').value='';
+  layoutData=null; el('f-layout').value=''; mostrarLayout();
+}
+function renderPedidos(){
+  if(!pedidos.length){ el('lista-pedidos').innerHTML='<div class="suave">Nenhum pedido salvo ainda.</div>'; return; }
+  el('lista-pedidos').innerHTML = pedidos.map((p,i)=>`
+    <div class="pedido-card">
+      <div class="top">
+        <div><span class="num">#${p.num}</span> — <b>${p.cliente}</b> ${p.telefone?`<span class="suave">· ${p.telefone}</span>`:''}<br>
+          <span class="suave">${p.data} · entrega ${p.entrega||'—'} · ${p.vendedora}${p.pagamento?' · '+p.pagamento:''}</span></div>
+        <div style="text-align:right"><span class="pill ${p.pago?'pago':'pendente'}">${p.pago?'PAGO':'SALDO '+fmt(p.saldo)}</span><br>
+          <b>${fmt(p.total)}</b> · ${p.pecas} pç · ${p.peso.toFixed(1)} pts</div>
+      </div>
+      <div class="suave" style="margin-top:4px">${p.itens.map(it=>{ const tams=Object.entries(it.tamanhos).map(([k,q])=>`${q}× ${k}`).join(', '); const cores=Object.entries(it.cores||{}).map(([c,v])=>v).join('/'); return `${it.qtde}× ${it.produto} (${tams}${cores?', cores '+cores:''})` }).join(' · ')}</div>
+      ${p.obs?`<div class="suave">📝 ${p.obs}</div>`:''}
+      <div class="acoes">
+        <button class="btn btn-cinza" onclick="imprimirCupom(${i})">🧾 Cupom</button>
+        <button class="btn btn-cinza" onclick="imprimirFicha(${i})">📄 Ficha de produção</button>
+        <button class="btn btn-cinza" onclick="copiarTrello(${i})">📋 Copiar p/ Trello</button>
+        <button class="btn btn-verde" onclick="marcarPago(${i})">${p.pago?'Reabrir saldo':'Marcar como pago'}</button>
+        <button class="btn btn-verm" onclick="excluirPedido(${i})">Excluir</button>
+      </div>
+    </div>`).join('');
+}
+function marcarPago(i){
+  const p = pedidos[i];
+  fetch(`/api/pedidos/${p.num}/pago`, {method:'PATCH'})
+    .then(r=>r.json())
+    .then(d=>{ if(d.ok){ p.pago=d.pago; p.sinal=d.pago?p.total:0; p.saldo=d.pago?0:p.total; renderPedidos(); } else alert('Erro: '+(d.erro||'?')); })
+    .catch(e=>alert('Falha de conexão: '+e.message));
+}
+function excluirPedido(i){
+  if(!confirm('Excluir o pedido #'+pedidos[i].num+'? Isso apaga para TODOS.')) return;
+  fetch(`/api/pedidos/${pedidos[i].num}`, {method:'DELETE'})
+    .then(r=>r.json())
+    .then(d=>{ if(d.ok){ pedidos.splice(i,1); renderPedidos(); } else alert('Erro: '+(d.erro||'?')); })
+    .catch(e=>alert('Falha de conexão: '+e.message));
+}
+function etiquetasTrello(p){
+  const labs = new Set();
+  const vend = {Duda:'Vendedora Duda', Naty:'Vendedora Naty', Vinicius:'Vendedor Vinicius', Joyce:'Vendedora Joyce'}[p.vendedora];
+  if(vend) labs.add(vend);
+  (p.itens||[]).forEach(it=>{
+    if(it.secao==='ESTAMPA EM DTF') labs.add('DTF');
+    else if(it.secao==='SUBLIMAÇÃO TOTAL'){ labs.add('Total'); labs.add('Sublimação'); }
+    else if(it.secao==='SUBLIMAÇÃO') labs.add('Sublimação');
+    else if(it.secao==='PEÇAS LISAS') labs.add('LISA');
+    if(/Caneca|Squeeze|Sacochila|Toalha/i.test(it.produto)) labs.add('Impressão');
+  });
+  return [...labs];
+}
+function gerarTrelloText(p){
+  const CORES_LABEL2 = {corpo:'corpo', gola:'gola', manga:'manga', punho:'punho', peitilho:'peitilho', vies:'viés'};
+  const desc = `${p.cliente}\nEntrega: ${p.entrega||''}\nTotal: ${fmt(p.total)} | Sinal: ${fmt(p.sinal)} | Saldo: ${fmt(p.saldo)}\nPagamento: ${p.pagamento||'—'}${p.obs?'\n'+p.obs:''}`;
+  const checks = p.itens.map(it=>{
+    const cores = Object.entries(it.cores||{}).map(([c,v])=>`${CORES_LABEL2[c]}: ${v}`).join(' / ');
+    const titulo = `${it.produto} — ${it.variante}${cores?' ('+cores+')':''}`;
+    const linhas = Object.entries(it.tamanhos).map(([tam,q])=>{
+      const pr = (it.tamanhosPrecos&&it.tamanhosPrecos[tam]!=null)?it.tamanhosPrecos[tam]:it.unit;
+      return `${q} uni - ${tam} / ${fmt(pr)} cada`;
+    });
+    return `--- CHECKLIST: ${titulo} ---\n${linhas.join('\n')}`;
+  }).join('\n\n');
+  return `${desc}\n\n${checks}\n\n--- ETIQUETAS: ${etiquetasTrello(p).join(', ')} ---`;
+}
+function copiarTrello(i){
+  navigator.clipboard.writeText(gerarTrelloText(pedidos[i])).then(()=>alert('Copiado! Como colar no Trello:\n\n1) A parte de CIMA vai na DESCRIÇÃO do card.\n2) Para cada bloco CHECKLIST: crie uma checklist no card e cole as linhas no campo de item — o Trello oferece "adicionar todas".\n3) Marque no card as ETIQUETAS listadas no fim.'));
+}
+
+/* ===== IMPRESSÕES ===== */
+const CORES_LABEL = {corpo:'Corpo', gola:'Gola', manga:'Manga', punho:'Punho', peitilho:'Peitilho', vies:'Viés'};
+function imprimirCupom(i){
+  const p = pedidos[i];
+  el('area-cupom').innerHTML = `
+    <div class="c-centro"><div class="c-titulo">D'CESAR</div>
+    <div style="font-size:9px">Camisetas · Sublimação · DTF<br>www.dcesar.com.br · @dcesarcamisetas</div></div><hr>
+    <div>PEDIDO Nº ${p.num} — ${p.data}</div>
+    <div>Cliente: ${p.cliente}</div>
+    ${p.telefone?`<div>Fone: ${p.telefone}</div>`:''}
+    <div>Vendedor(a): ${p.vendedora}</div>
+    <div>Entrega: ${p.entrega||'—'}</div><hr>
+    <table>${p.itens.map(it=>{
+      const cores = Object.entries(it.cores||{}).map(([c,v])=>`${CORES_LABEL[c]}: ${v}`).join(' · ');
+      const linhas = Object.entries(it.tamanhos).map(([tam,q])=>{
+        const pr = (it.tamanhosPrecos&&it.tamanhosPrecos[tam]!=null)?it.tamanhosPrecos[tam]:it.unit;
+        return `<div style="font-size:9.5px;padding-left:5px">${q}x ${tam} · ${fmt(pr)} un</div>`;
+      }).join('');
+      const det = [cores, it.estampaA3?'estampa A3':'', (it.adicionais||[]).join(', ')].filter(Boolean).join(' · ');
+      return `<tr><td><b>${it.produto}</b><br><span style="font-size:9px">${it.variante}</span>${linhas}${det?`<span style="font-size:9px">${det}</span>`:''}</td>
+      <td style="text-align:right;vertical-align:top">${fmt(it.subtotal)}</td></tr>`}).join('')}
+    </table><hr>
+    <div class="item-linha" style="font-size:10px"><span>Peças: ${p.pecas} · Peso: ${p.peso.toFixed(1)} pts</span></div>
+    <table><tr><td>TOTAL</td><td class="c-total" style="text-align:right">${fmt(p.total)}</td></tr>
+    <tr><td>Sinal pago</td><td style="text-align:right">${fmt(p.sinal)}</td></tr>
+    <tr><td><b>SALDO</b></td><td style="text-align:right"><b>${fmt(p.saldo)}</b></td></tr>
+    <tr><td>Pagamento</td><td style="text-align:right">${p.pagamento||'—'}</td></tr></table><hr>
+    ${p.obs?`<div style="font-size:9.5px">Obs: ${p.obs}</div><hr>`:''}
+    <div class="c-centro" style="font-size:9px">Este documento NÃO é um documento fiscal.<br>Cada peça, um toque único do seu estilo!</div>`;
+  document.body.classList.remove('imprimir-ficha');
+  window.print();
+}
+function gerarFichaHTML(p){
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  const linhas = p.itens.flatMap(it=>{
+    const cores = it.cores||{};
+    const det = [cores.punho&&'Punho: '+cores.punho, cores.peitilho&&'Peitilho: '+cores.peitilho, cores.vies&&'Viés: '+cores.vies, (it.estampaA3?'Estampa A3':''), (it.adicionais||[]).join(', ')].filter(Boolean).join(' · ')||'—';
+    const pesoPeca = it.qtde ? (it.peso/it.qtde) : 0;
+    return Object.entries(it.tamanhos).map(([tam,q])=>{
+      const pr = (it.tamanhosPrecos&&it.tamanhosPrecos[tam]!=null)?it.tamanhosPrecos[tam]:it.unit;
+      return `<tr>
+      <td><b>${it.produto}</b><br><span style="font-size:9px">${it.variante}${pesoPeca?' · '+pesoPeca.toFixed(1)+' pt/peça':''}</span></td>
+      <td style="text-align:center;font-weight:800;font-size:13px">${tam}</td>
+      <td style="text-align:center;font-size:14px;font-weight:800">${q}</td>
+      <td class="f-cor">${cores.corpo||'—'}</td>
+      <td class="f-cor">${cores.manga||'—'}</td>
+      <td class="f-cor">${cores.gola||'—'}</td>
+      <td style="font-size:9.5px">${det}</td>
+      <td></td></tr>`;
+    });
+  });
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div><div class="f-titulo">FICHA DE PRODUÇÃO</div>
+      <div><b>PEDIDO Nº ${p.num}</b> — recebido em ${p.data}</div>
+      <div>Cliente: <b>${p.cliente}</b>${p.telefone?' · '+p.telefone:''} · Vendedor(a): ${p.vendedora}</div>
+      <div style="font-size:14px">ENTREGA: <b style="font-size:16px">${p.entrega||'—'}</b></div></div>
+      <div style="text-align:right;font-size:11px"><b>D'CESAR</b><br>www.dcesar.com.br</div>
+    </div>
+    <table>
+      <tr><th style="width:22%">Produto</th><th style="width:5%">Tamanho</th><th style="width:5%">Quantidade</th>
+      <th style="width:12%">Cor do corpo</th><th style="width:12%">Cor da manga</th><th style="width:12%">Cor da gola</th>
+      <th style="width:16%">Detalhes adicionais</th><th style="width:2%">✓</th></tr>
+      ${linhas.join('')}
+    </table>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <div class="f-box" style="flex:1"><b>TOTAIS</b><br>Peças: <b>${p.pecas}</b> · Peso de produção: <b>${p.peso.toFixed(1)} pontos</b><br>
+      Total: <b>${fmt(p.total)}</b> · Sinal: ${fmt(p.sinal)} · <span style="color:#b3261e">Saldo: ${fmt(p.saldo)}</span><br>
+      Pagamento: <b>${p.pagamento||'—'}</b></div>
+      <div class="f-box" style="flex:1">${p.obs?('<b>OBSERVAÇÕES</b><br>'+p.obs):'<b>OBSERVAÇÕES</b><br>—'}</div>
+      <div class="f-box" style="flex:0 0 150px;text-align:center"><b>CONFERÊNCIA</b><br><br><br>_____________________<br>assinatura</div>
+    </div>
+    ${(p.layout?`<div style="page-break-inside:avoid;margin-top:12px"><div class="f-titulo" style="font-size:15px">LAYOUT PARA CORTE</div><img src="${p.layout}" style="max-width:100%;border:1.5px solid #070B30;border-radius:6px"></div>`:'')}
+    <div style="margin-top:8px;font-size:9px;color:#555">Impresso em ${hoje} · Documento interno de produção — não fiscal.</div>`;
+}
+function imprimirFicha(i){
+  el('area-ficha').innerHTML = gerarFichaHTML(pedidos[i]);
+  document.body.classList.add('imprimir-ficha');
+  window.print();
+  setTimeout(()=>document.body.classList.remove('imprimir-ficha'), 500);
+}
+
+/* ===== TABELA COMPLETA (visualização) ===== */
+function renderTabela(){
+  let html='';
+  for(const sec in CATALOGO){
+    html += `<h3 style="margin-top:14px">${sec}</h3><table><tr><th>Produto</th><th>Tecido / cor — tamanhos e preços (unidade)</th><th>Descontos por volume</th><th>Adicionais</th></tr>`;
+    for(const [nome,p] of Object.entries(CATALOGO[sec])){
+      const porTecido = Object.entries(p.tecidos).map(([tn,cores])=>{
+        const porCor = Object.entries(cores).map(([cn,v])=>{
+          const ts = Object.entries(v.tamanhos).map(([k,pr])=>`${FAIXAS[k]?.nome||k}: <b>${fmt(pr)}</b>`).join(' · ');
+          const alg = v.algodao ? ` <span class="suave">(+${(p.algodaoLabel||'Se for ALGODÃO').toLowerCase()} +${fmt(v.algodao)})</span>` : '';
+          return `<div style="margin-bottom:2px"><b style="font-size:11px">${cn}</b>${alg}<br>${ts}</div>`;
+        }).join('');
+        return `<div style="margin-bottom:4px">${tn?('<b style="color:var(--azul2);font-size:11px">'+tn+'</b><br>'):''}${porCor}</div>`;
+      }).join('');
+      const vol = p.volume ? p.volume.map(v=>`${v.min>=51?'51+':'acima de '+(v.min-1)}: ${v.consultar?'consultar':(v.preco?fmt(v.preco):'-'+fmt(v.desc))}`).join(' · ') : '';
+      const vfaixa = p.volumeFaixa ? Object.entries(p.volumeFaixa).map(([k,arr])=>`${FAIXAS[k]?.nome||k}: `+arr.map(v=>`${v.min}+ ${fmt(v.preco)}`).join(', ')).join(' · ') : '';
+      const adds = (p.adicionais||[]).map(id=>ADICIONAIS_COMUNS[id].nome+' +'+fmt(ADICIONAIS_COMUNS[id].valor)).join(', ');
+      html += `<tr><td><b>${nome}</b></td><td>${porTecido}</td><td>${vol||vfaixa||'—'}</td><td>${adds||'—'}</td></tr>`;
+    }
+    html += '</table>';
+  }
+  el('tabela-completa').innerHTML = html;
+}
+
+iniciar(); renderItens(); atualizarResumo();
+
+</script>
+</body>
+</html>
